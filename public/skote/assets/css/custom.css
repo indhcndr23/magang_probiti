@@ -313,3 +313,30 @@ select {
 .bg-green-main{
     background-color: var(--green-button-main) !important;
 }
+
+/* ======================================
+   DROPDOWN SUBMENU (MULTI-LEVEL)
+====================================== */
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -4px;
+    margin-left: 2px;
+    display: none;
+    border-radius: 8px !important;
+    min-width: 180px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dropdown-submenu:hover > .dropdown-menu,
+.dropdown-submenu:focus-within > .dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu > a::after {
+    display: none;
+}

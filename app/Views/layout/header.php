@@ -88,6 +88,33 @@
                                 <i class="bx bx-key me-2"></i> Kepemilikan
                             </a>
                         </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <!-- MENU DATA PENGAWASAN DENGAN SUB MENU -->
+                        <li class="dropdown-submenu dropend">
+                            <a class="dropdown-item dropdown-toggle d-flex align-items-center justify-content-between <?= url_is('input/pengawasan*') ? 'fw-bold text-success' : '' ?>" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="bx bx-shield-quarter me-2"></i> Data Pengawasan</span>
+                                <i class="bx bx-chevron-right font-size-12 ms-2"></i>
+                            </a>
+                            <ul class="dropdown-menu shadow-sm border-0">
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center <?= url_is('input/pengawasan/temuan*') ? 'fw-bold text-success' : '' ?>" href="<?= base_url('input/pengawasan/temuan') ?>">
+                                        <i class="bx bx-search-alt me-2"></i> Temuan
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center <?= url_is('input/pengawasan/tindak-lanjut*') ? 'fw-bold text-success' : '' ?>" href="<?= base_url('input/pengawasan/tindak-lanjut') ?>">
+                                        <i class="bx bx-task me-2"></i> Tindak Lanjut
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center <?= url_is('input/pengawasan/verifikasi*') ? 'fw-bold text-success' : '' ?>" href="<?= base_url('input/pengawasan/verifikasi') ?>">
+                                        <i class="bx bx-check-shield me-2"></i> Verifikasi
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
 

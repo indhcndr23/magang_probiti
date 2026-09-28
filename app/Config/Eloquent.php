@@ -29,7 +29,8 @@ class Eloquent
             'password'  => $db_config->default['password'],
             'charset'  =>  $db_config->default['charset'],
             'collation' => $db_config->default['DBCollat'],
-            'prefix'    => $db_config->default['DBPrefix']
+            'prefix'    => $db_config->default['DBPrefix'],
+            'port'      => $db_config->default['port'] ?? 3306,
         ]);
 
         $capsule->setAsGlobal();

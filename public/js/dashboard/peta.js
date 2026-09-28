@@ -2,10 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = window.petaData || { opd: [], jaringan: [], geojsonUrl: null, kecamatanFolderUrl: null };
 
     const warnaStatus = {
-        hijau:  '#2bb35e',
+        hijau: '#2bb35e',
         kuning: '#d4b106',
-        merah:  '#e14343',
-        abu:    '#9e9e9e'
+        merah: '#e14343',
+        abu: '#9e9e9e'
     };
 
     const pusatMagelang = [-7.4285, 110.2169];
@@ -41,17 +41,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const escapeHTML = (str) => {
         if (str === null || str === undefined) return '';
-        return String(str).replace(/[&<>'"]/g, 
+        return String(str).replace(/[&<>'"]/g,
             tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])
         );
     };
 
     const renderBadgeIndex = (nilai, status) => {
         const warna = {
-            hijau:  { bg: '#d1fae5', text: '#065f46' },
+            hijau: { bg: '#d1fae5', text: '#065f46' },
             kuning: { bg: '#fef9c3', text: '#713f12' },
-            merah:  { bg: '#fee2e2', text: '#991b1b' },
-            abu:    { bg: '#f3f4f6', text: '#6b7280' },
+            merah: { bg: '#fee2e2', text: '#991b1b' },
+            abu: { bg: '#f3f4f6', text: '#6b7280' },
         };
         const w = warna[status] || warna.abu;
         const nilaiTeks = escapeHTML(nilai);
@@ -62,18 +62,18 @@ document.addEventListener("DOMContentLoaded", () => {
     window.changePageBarangPeta = (direction) => {
         const container = document.getElementById('barang-pagination-container-peta');
         if (!container) return;
-        
+
         let currentPage = parseInt(container.getAttribute('data-page') || '1');
         const totalPages = parseInt(container.getAttribute('data-total-pages') || '1');
-        
+
         currentPage += direction;
         if (currentPage < 1 || currentPage > totalPages) return;
-        
+
         container.setAttribute('data-page', currentPage);
-        
+
         document.querySelectorAll('.barang-page-item-peta').forEach(el => el.classList.add('d-none'));
         document.querySelectorAll(`.barang-page-peta-${currentPage}`).forEach(el => el.classList.remove('d-none'));
-        
+
         const pageInfo = document.getElementById('page-info-peta');
         if (pageInfo) pageInfo.textContent = `${currentPage} / ${totalPages}`;
     };
@@ -85,10 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const modalEl = document.getElementById('modalDetailPeta');
         const labelEl = document.getElementById('modalDetailPetaLabel');
-        const bodyEl  = document.getElementById('modalDetailPetaBody');
+        const bodyEl = document.getElementById('modalDetailPetaBody');
 
         if (labelEl) labelEl.textContent = `Detail — ${namaOpd || ''}`;
-        if (bodyEl)  bodyEl.innerHTML = '<div class="text-center py-3"><i class="bx bx-loader-alt bx-spin fs-3 text-primary"></i><br>Memuat data...</div>';
+        if (bodyEl) bodyEl.innerHTML = '<div class="text-center py-3"><i class="bx bx-loader-alt bx-spin fs-3 text-primary"></i><br>Memuat data...</div>';
 
         const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
         modalInstance.show();
@@ -108,12 +108,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 fetchWithCheck(`${rootUrl}dashboard/histori-index/${idOpd}`)
             ]);
 
-            if (currentModalId !== idOpd) return; 
+            if (currentModalId !== idOpd) return;
 
-            const opd        = detailResult.opd || {};
+            const opd = detailResult.opd || {};
             const barangList = detailResult.barang || [];
-            const aktif      = histResult.aktif || {};
-            const histori    = histResult.histori || [];
+            const aktif = histResult.aktif || {};
+            const histori = histResult.histori || [];
 
             let barangRows = '';
             const itemsPerPage = 5;
@@ -146,9 +146,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const rawNilaiAktif = aktif.nilai_index !== null && aktif.nilai_index !== undefined ? Number(aktif.nilai_index) : null;
             const nilaiAktif = rawNilaiAktif !== null ? Math.round(rawNilaiAktif) : '-';
-            
+
             const statusAktif = nilaiAktif >= 80 ? 'hijau' : nilaiAktif >= 50 ? 'kuning' : 'merah';
-            const badgeAktif  = renderBadgeIndex(nilaiAktif, statusAktif);
+            const badgeAktif = renderBadgeIndex(nilaiAktif, statusAktif);
 
             let historiRows = '';
             if (histori.length === 0) {
@@ -162,19 +162,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
 
                     const statusH = nilaiH >= 80 ? 'hijau' : nilaiH >= 50 ? 'kuning' : 'merah';
-                    const badgeH  = renderBadgeIndex(nilaiH, statusH);
+                    const badgeH = renderBadgeIndex(nilaiH, statusH);
 
                     let perubahan = '';
                     if (nilaiNext !== null && !isNaN(nilaiNext) && !isNaN(nilaiH)) {
                         const selisih = nilaiH - nilaiNext;
-                        if (selisih > 0)      perubahan = `<span style="color:#1a6b3a; font-weight:500">▲ +${selisih} dari ${nilaiNext}</span>`;
+                        if (selisih > 0) perubahan = `<span style="color:#1a6b3a; font-weight:500">▲ +${selisih} dari ${nilaiNext}</span>`;
                         else if (selisih < 0) perubahan = `<span style="color:#dc3545; font-weight:500">▼ ${selisih} dari ${nilaiNext}</span>`;
-                        else                  perubahan = `<span style="color:#6c757d">— sama</span>`;
+                        else perubahan = `<span style="color:#6c757d">— sama</span>`;
                     } else {
                         perubahan = '<span style="color:#6c757d; font-size:11px">data awal</span>';
                     }
 
-                    const tgl = h.created_at 
+                    const tgl = h.created_at
                         ? new Date(h.created_at).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })
                         : '-';
 
@@ -385,14 +385,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 namaKecamatan = props.name || props.NAMOBJ || props.nama;
             }
 
+            const isBorobudur = item.slug.toLowerCase() === 'borobudur';
+            const defaultStyle = isBorobudur
+                ? { color: '#dc2626', weight: 2, fillColor: '#ef4444', fillOpacity: 0.35 }
+                : { color: '#8a8a8a', weight: 1, fillColor: '#8a8a8a', fillOpacity: 0.03 };
+
+            const hoverStyle = isBorobudur
+                ? { color: '#b91c1c', weight: 2.5, fillColor: '#dc2626', fillOpacity: 0.55 }
+                : { fillOpacity: 0.15, weight: 2 };
+
             const layer = L.geoJSON(item.geo, {
-                style: { color: '#8a8a8a', weight: 1, fillColor: '#8a8a8a', fillOpacity: 0.03 },
+                style: defaultStyle,
                 interactive: true
             });
 
-            layer.on('mouseover', (e) => e.target.setStyle({ fillOpacity: 0.15, weight: 2 }));
-            layer.on('mouseout', (e) => e.target.setStyle({ fillOpacity: 0.03, weight: 1 }));
-            layer.bindTooltip(namaKecamatan, { sticky: true });
+            layer.on('mouseover', (e) => e.target.setStyle(hoverStyle));
+            layer.on('mouseout', (e) => e.target.setStyle(defaultStyle));
+            layer.bindTooltip(isBorobudur ? `<b>${namaKecamatan}</b> (Zona Merah)` : namaKecamatan, { sticky: true });
 
             kecamatanLayerGroup.addLayer(layer);
         });
@@ -409,9 +418,209 @@ document.addEventListener("DOMContentLoaded", () => {
         toggleKecamatanVisibility();
     };
 
+    // FUNGSI MODAL DETAIL SENTRA PRODUKSI BARANG CANDIREJO
+    window.bukaDetailProduksiCandirejo = () => {
+        const modalEl = document.getElementById('modalDetailPeta');
+        const labelEl = document.getElementById('modalDetailPetaLabel');
+        const bodyEl  = document.getElementById('modalDetailPetaBody');
+
+        if (labelEl) labelEl.innerHTML = '<i class="bx bx-package text-warning me-1"></i> Detail Sentra Produksi Barang — Desa Candirejo (Borobudur)';
+
+        const rawBaseUrl = window.baseUrl || `${window.location.origin}/`;
+        const rootUrl = rawBaseUrl.endsWith('/') ? rawBaseUrl : `${rawBaseUrl}/`;
+
+        if (bodyEl) {
+            bodyEl.innerHTML = `
+                <div class="row g-3">
+                    <div class="col-lg-5">
+                        <div class="card border h-100 shadow-none">
+                            <img src="${rootUrl}uploads/candirejo_produksi.jpg" class="card-img-top" style="height:230px;object-fit:cover;border-radius:6px 6px 0 0;" alt="Sentra Kerajinan Candirejo">
+                            <div class="card-body p-3">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <span class="badge bg-warning text-dark"><i class="bx bx-package"></i> Produksi Barang</span>
+                                    <span class="badge bg-danger">Kec. Borobudur</span>
+                                    <span class="badge bg-success">Aktif Berproduksi</span>
+                                </div>
+                                <h5 class="fw-bold mb-1" style="color:#1e293b;">Sentra UMKM & Kerajinan Candirejo</h5>
+                                <p class="text-muted small mb-3"><i class="bx bx-map text-danger"></i> Desa Wisata Candirejo, Kec. Borobudur, Kab. Magelang, Jawa Tengah</p>
+                                
+                                <table class="table table-sm table-bordered mb-0 small">
+                                    <tbody>
+                                        <tr><th class="bg-light" style="width:42%;">Titik Koordinat</th><td>-7.6253, 110.2244</td></tr>
+                                        <tr><th class="bg-light">Pengelola Sentra</th><td>Pokdarwis & Koperasi Desa Candirejo</td></tr>
+                                        <tr><th class="bg-light">Kontak / PIC</th><td>+62 812-2879-1122 (Bpk. Bambang)</td></tr>
+                                        <tr><th class="bg-light">Jam Operasional</th><td>Setiap Hari (08.00 - 17.00 WIB)</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <ul class="nav nav-tabs mb-3" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-prod-info" type="button"><i class="bx bx-info-circle me-1"></i> Informasi Produksi</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-prod-barang" type="button"><i class="bx bx-list-ul me-1"></i> Produk Unggulan</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-prod-fasilitas" type="button"><i class="bx bx-wifi me-1"></i> Fasilitas & Jaringan</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <!-- TAB 1: INFO UMUM -->
+                            <div class="tab-pane fade show active" id="tab-prod-info">
+                                <h6 class="fw-bold mb-2">Profil & Potensi Industri Desa Candirejo</h6>
+                                <p style="font-size:13px;line-height:1.6;color:#334155;">
+                                    Desa Candirejo merupakan desa wisata berbasis kebudayaan dan kerajinan lokal di kawasan Borobudur. Sentra ini menjadi pusat industri kreatif warga dengan keahlian turun-temurun dalam pembuatan <strong>gerabah tradisional</strong>, <strong>kerajinan anyaman bambu</strong>, serta <strong>seni pahat batu alam Merapi</strong>.
+                                </p>
+                                <div class="row g-2 mt-2">
+                                    <div class="col-sm-6">
+                                        <div class="p-3 border rounded bg-light">
+                                            <div class="text-muted small">Total Unit Pengrajin</div>
+                                            <div class="fw-bold fs-5 text-primary">45 Unit Usaha / Pengrajin</div>
+                                            <div class="text-muted" style="font-size:11px;">Terbagi di 5 dusun produksi</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="p-3 border rounded bg-light">
+                                            <div class="text-muted small">Kapasitas Produksi</div>
+                                            <div class="fw-bold fs-5 text-success">~3.500 Pcs / Bulan</div>
+                                            <div class="text-muted" style="font-size:11px;">Suplai wisata & distributor</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TAB 2: DAFTAR BARANG -->
+                            <div class="tab-pane fade" id="tab-prod-barang">
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-custom align-middle mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Komoditas / Barang</th>
+                                                <th>Bahan Baku</th>
+                                                <th>Kapasitas / Bln</th>
+                                                <th>Jangkauan Pasar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Gerabah & Pot Keramik</strong></td>
+                                                <td>Tanah Liat Lokal</td>
+                                                <td>1.200 unit</td>
+                                                <td><span class="badge bg-success">Wisatawan & Ekspor</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Anyaman Bambu & Besek</strong></td>
+                                                <td>Bambu Apus / Petung</td>
+                                                <td>1.500 unit</td>
+                                                <td><span class="badge bg-primary">Jawa Tengah & DIY</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Pahat Batu Candi & Cobek</strong></td>
+                                                <td>Batu Andesit Merapi</td>
+                                                <td>500 unit</td>
+                                                <td><span class="badge bg-primary">Nasional</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Keripik & Olahan Singkong</strong></td>
+                                                <td>Hasil Tani Desa</td>
+                                                <td>350 kg</td>
+                                                <td><span class="badge bg-info">Oleh-oleh Lokal</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- TAB 3: FASILITAS -->
+                            <div class="tab-pane fade" id="tab-prod-fasilitas">
+                                <table class="table table-sm align-middle mb-0">
+                                    <tbody>
+                                        <tr><th style="width:38%;font-weight:600;color:#495057;">Jaringan Internet & Sinyal</th><td><span class="badge bg-success"><i class="bx bx-check"></i> Fiber Optik Desa & 4G Stabil</span></td></tr>
+                                        <tr><th style="font-weight:600;color:#495057;">Pemasaran Digital</th><td>Toko Daring, QRIS, & Media Sosial Pokdarwis</td></tr>
+                                        <tr><th style="font-weight:600;color:#495057;">Galeri & Workshop</th><td>Tersedia Rumah Produksi Terbuka untuk Wisatawan</td></tr>
+                                        <tr><th style="font-weight:600;color:#495057;">Akses Transportasi</th><td>Dapat dilalui Bus Pariwisata, Mobil, dan Truk Ekspedisi</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modalInstance.show();
+    };
+
+    const renderProduksiBarang = () => {
+        // Koordinat Desa Candirejo, Kecamatan Borobudur
+        const candirejoCoord = [-7.6253, 110.2244];
+
+        const triangleIcon = L.divIcon({
+            className: 'custom-candirejo-triangle',
+            html: `
+                <div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;">
+                    <svg width="34" height="34" viewBox="0 0 24 24" style="filter: drop-shadow(0 3px 5px rgba(0,0,0,0.45));">
+                        <polygon points="12,2 23,21 1,21" fill="#ea580c" stroke="#ffffff" stroke-width="2" stroke-linejoin="round" />
+                        <text x="12" y="17.5" font-size="8.5" font-weight="900" fill="#ffffff" text-anchor="middle">★</text>
+                    </svg>
+                    <span style="background:#ea580c;color:#fff;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:12px;white-space:nowrap;margin-top:2px;box-shadow:0 2px 4px rgba(0,0,0,0.3);border:1.5px solid #fff;">
+                        Candirejo (Produksi Barang)
+                    </span>
+                </div>
+            `,
+            iconSize: [160, 56],
+            iconAnchor: [80, 18]
+        });
+
+        const rawBaseUrl = window.baseUrl || `${window.location.origin}/`;
+        const rootUrl = rawBaseUrl.endsWith('/') ? rawBaseUrl : `${rawBaseUrl}/`;
+
+        const markerCandirejo = L.marker(candirejoCoord, { icon: triangleIcon, zIndexOffset: 1000 }).addTo(map);
+
+        markerCandirejo.bindTooltip('<b>Daerah Candirejo</b><br><span style="color:#ea580c;font-weight:600;">▲ Produksi Barang (Klik untuk Detail & Foto)</span>', {
+            direction: 'top',
+            offset: [0, -18]
+        });
+
+        // POPUP DI PETA DENGAN GAMBAR & KETERANGAN DETAIL
+        markerCandirejo.bindPopup(`
+            <div class="card border-0 shadow-none" style="width:280px;margin:-14px -20px -15px -20px;border-radius:10px;overflow:hidden;">
+                <div style="position:relative;">
+                    <img src="${rootUrl}uploads/candirejo_produksi.jpg" alt="Sentra Kerajinan Candirejo" style="width:100%;height:140px;object-fit:cover;display:block;">
+                    <span class="badge bg-warning text-dark" style="position:absolute;bottom:8px;left:8px;font-size:11px;font-weight:700;box-shadow:0 2px 4px rgba(0,0,0,0.3);">
+                        <i class="bx bx-package"></i> Produksi Barang
+                    </span>
+                    <span class="badge bg-danger" style="position:absolute;bottom:8px;right:8px;font-size:11px;font-weight:600;box-shadow:0 2px 4px rgba(0,0,0,0.3);">
+                        Borobudur
+                    </span>
+                </div>
+                <div class="p-3" style="font-size:12px;color:#334155;">
+                    <h6 class="fw-bold mb-1" style="color:#0f172a;font-size:14px;">Sentra Kerajinan & Produksi Candirejo</h6>
+                    <p class="text-muted mb-2" style="font-size:11.5px;line-height:1.4;">
+                        Pusat pembuatan kerajinan gerabah tanah liat, anyaman bambu, pahat batu, dan olahan pangan lokal.
+                    </p>
+                    <div style="background:#f8fafc;border-radius:6px;padding:6px 8px;margin-bottom:10px;font-size:11px;line-height:1.6;border:1px solid #e2e8f0;">
+                        <div><strong>📍 Lokasi:</strong> Desa Candirejo, Kec. Borobudur</div>
+                        <div><strong>🏺 Produk:</strong> Gerabah, Pahat Batu, Anyaman</div>
+                        <div><strong>👥 Pengrajin:</strong> ~45 Unit Usaha Aktif</div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary w-100 fw-semibold" onclick="bukaDetailProduksiCandirejo()">
+                        <i class="bx bx-show-alt me-1"></i> Buka Detail Lengkap
+                    </button>
+                </div>
+            </div>
+        `, { maxWidth: 300 });
+    };
+
     renderMarkerOpd();
     renderBatasKabMagelang();
     renderKecamatan();
+    renderProduksiBarang();
 
     window.addEventListener('resize', () => map?.invalidateSize());
 
